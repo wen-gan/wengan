@@ -1,4 +1,3 @@
-it is a version control system.
-Git is free software.
-wq
+Git is a distributed version control system.
+Git is free software
 
