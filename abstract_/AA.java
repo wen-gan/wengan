@@ -1,0 +1,13 @@
+package com.wengan.abstract_;
+
+public class AA extends Template {
+
+    @Override
+    public void job() { //实现Template的抽象方法job
+
+        long num = 0;
+        for (long i = 1; i <= 800000; i++) {
+            num += i;
+        }
+    }
+}
