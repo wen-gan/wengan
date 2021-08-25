@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 针对网页的设置，不加的话有的网页显示不出来 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页名 -->
+    <title>点餐系统-订单</title>
+</head>
+<body>
+<div class="order-div">
+    <div class="title">
+        <!-- 标题(1-6) -->
+        <h1 align="center">订单</h1>
+        <!-- 页面跳转 -->
+        <a href="/admin" class="btn1">返回菜单</a>
+    </div>
+    <table border="2" align="center" class="order-table">
+        <!-- tr用于定义表格的列 -->
+        <tr>
+            <!-- th代表表格内数据居中加粗 -->
+            <th>序号</th>
+            <th>菜品</th>
+            <th>下单时间</th>
+            <th>状态</th>
+            <th>完成时间</th>
+            <th>总金额</th>
+            <th>折扣</th>
+            <th>实付款</th>
+            <th>会员编号</th>
+            <th></th>
+        </tr>
+        <tr th:each="order : ${orderList}">
+            <!-- td代表表格内内容靠左对齐 -->
+            <!-- th:text 文本替换-->
+            <!-- th:if 进行判断-->
+            <!-- th:unless if操作的对立面 -->
+            <!-- ${}用于获取变量值 -->
+            <!-- @{}用于链接网页-->
+            <td th:text="${order.getQueue()}"></td>
+            <td><span th:text="${order.getMenus().get(0).getName()}"></span>等</td>
+            <td th:text="${#dates.format(order.getCreateTime(),'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${order.getStatue()}"></td>
+            <td th:if="${order.getCompletionTime() == null}"></td>
+            <td th:unless="${order.getCompletionTime() == null}"><span th:text="${#dates.format(order.getCompletionTime(),'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span th:text="${order.getTotalMoney()}"></span>元</td>
+            <td th:text="${order.getDiscount()}"></td>
+            <td><span th:text="${order.getTrueMoney()}"></span>元</td>
+            <td th:text="${order.getUserId()}"></td>
+            <td><a th:href="@{/orderDetails/{id}/{sign}(id = ${order.getId()}, sign = 'sign')}" class="change">查看详情</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 针对网页的设置，不加的话有的网页显示不出来 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页名 -->
+    <title>点餐系统-菜单</title>
+</head>
+<body>
+    <div class="menu-div">
+        <div class="title">
+            <!-- 页面跳转 -->
+            <a href="/index" class="btn3">返回主菜单</a>
+            <!-- 标题(1-6) -->
+            <h1 align="center">菜单</h1>
+            <!-- 页面跳转 -->
+            <a href="/login" class="btn1 login">会员登录</a>
+        </div>
+        <table border="2" align="center" class="menu-table">
+            <!-- 表格标题 -->
+            <caption><h3>主食</h3></caption>
+            <!-- tr用于定义表格的列 -->
+            <tr>
+                <!-- th代表表格内数据居中加粗 -->
+                <th>选择</th>
+                <th>菜名</th>
+                <th>价格</th>
+                <th>供应量</th>
+                <th>份数</th>
+            </tr>
+            <!-- th:each 循环操作-->
+            <tr th:each="menu : ${menuList}" th:if="${menu.getType().equals('主食')}">
+                <!-- td代表表格内内容靠左对齐 -->
+                <td><input type="checkbox" name="ids" th:value="${menu.getId()}" form="menu-form"></td>
+                <!-- th:text 文本替换-->
+                <td th:text="${menu.getName()}"></td>
+                <td th:text="${menu.getPrice()}"></td>
+                <td th:text="${menu.getSupply()}"></td>
+                <td><input type="text" th:name="${'name-' + menu.getId()}" class="number" value="1" placeholder="1" form="menu-form"></td>
+            </tr>
+        </table>
+        <table border="2" align="center" class="menu-table">
+            <!-- 表格标题 -->
+            <caption><h3>鱼类</h3></caption>
+            <!-- tr用于定义表格的列 -->
+            <tr>
+                <!-- th代表表格内数据居中加粗 -->
+                <th>选择</th>
+                <th>菜名</th>
+                <th>价格</th>
+                <th>供应量</th>
+                <th>份数</th>
+            </tr>
+            <!-- th:each 循环操作-->
+            <tr th:each="menu : ${menuList}" th:if="${menu.getType().equals('鱼类')}">
+                <!-- td代表表格内内容靠左对齐 -->
+                <td><input type="checkbox" name="ids" th:value="${menu.getId()}" form="menu-form"></td>
+                <!-- th:text 文本替换-->
+                <td th:text="${menu.getName()}"></td>
+                <td th:text="${menu.getPrice()}"></td>
+                <td th:text="${menu.getSupply()}"></td>
+                <td><input type="text" th:name="${'name-' + menu.getId()}" class="number" value="1" placeholder="1" form="menu-form"></td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <!-- th:if 进行判断-->
+                    <span class="tip" th:if="${session.error}">需求超出供应量，请重新点餐！</span>
+                    <form action="/order/food" id="menu-form" method="GET">
+                        <input type="submit" value="确认" form="menu-form" class="btn">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

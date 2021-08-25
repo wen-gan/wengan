@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 针对网页的设置，不加的话有的网页显示不出来 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页名 -->
+    <title>点餐系统-会员注册</title>
+</head>
+<body>
+<div class="login-div">
+    <div class="title">
+        <!-- 标题(1-6) -->
+        <h2 align="center">会员注册</h2>
+    </div>
+    <div class="content">
+        <span th:if="${error}" class="tip">用户名已存在或密码输入错误，请重新输入！</span>
+        <form action="/register" method="POST">
+            <div class="username">
+                <!-- label数字表达式 -->
+                <!-- input可以填写的文本框-->
+                <label for="username-form" class="username-label">用户名:</label>
+                <input id="username-form" class="form-input" type="text" name="username" placeholder="请输入用户名">
+            </div>
+            <div class="first-password">
+                <!-- label数字表达式 -->
+                <!-- input可以填写的文本框-->
+                <label for="password-form-1" class="password-label">密码:</label>
+                <input id="password-form-1" class="form-input" type="password" name="firstPassword" placeholder="请输入密码">
+            </div>
+            <div class="second-password">
+                <!-- label数字表达式 -->
+                <!-- input可以填写的文本框-->
+                <label for="password-form-2" class="password-label">密码:</label>
+                <input id="password-form-2" class="form-input" type="password" name="secondPassword" placeholder="请再次输入密码">
+            </div>
+            <div class="second-password">
+                <!-- label数字表达式 -->
+                <!-- input可以填写的文本框-->
+                <label for="recharge" class="password-label">充值:</label>
+                <input id="recharge" class="form-input" type="text" name="recharge" placeholder="请输入充值金额,默认100元">
+            </div>
+            <div class="button">
+                <!-- input可以填写的文本框-->
+                <input type="submit" value="注册" class="btn register">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

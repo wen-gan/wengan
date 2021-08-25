@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 针对网页的设置，不加的话有的网页显示不出来 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页名 -->
+    <title>点餐系统-订单详情</title>
+</head>
+<body>
+<div class="menu-div">
+    <div class="title">
+        <!-- 标题(1-6) -->
+        <h1 align="center">订单详情</h1>
+    </div>
+    <div class="content">
+        <table border="2" align="center" class="menu-table">
+            <!-- tr用于定义表格的列 -->
+            <tr>
+                <!-- th代表表格内数据居中加粗 -->
+                <th>订单编号</th>
+                <th>序号</th>
+                <th>下单时间</th>
+                <th>状态</th>
+                <th>完成时间</th>
+                <th>总金额</th>
+                <th>折扣</th>
+                <th>实付款</th>
+                <th>会员编号</th>
+            </tr>
+            <tr>
+                <!-- td代表表格内内容靠左对齐 -->
+                <!-- th:text 文本替换-->
+                <!-- th:if 进行判断-->
+                <!-- th:unless if操作的对立面 -->
+                <td th:text="${order.getId()}"></td>
+                <td th:text="${order.getQueue()}"></td>
+                <td th:text="${#dates.format(order.getCreateTime(),'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:unless="${sign.equals('status')}" th:text="${order.getStatue()}"></td>
+                <td th:if="${sign.equals('status')}" >
+                    <form th:action="@{/statue/{id}/{sign}(id = ${order.getId()}, sign = 'sign')}" method="GET">
+                        <input type="text" name="statue" autofocus="autofocus" th:value="${order.getStatue()}" class="status-input">
+                    </form>
+                </td>
+                <td th:if="${order.getCompletionTime() == null}"></td>
+                <td th:unless="${order.getCompletionTime() == null}"><span th:text="${#dates.format(order.getCompletionTime(),'yyyy-MM-dd HH:mm:ss')}"></span></td>
+                <td th:unless="${sign.equals('money')}" ><span th:text="${order.getTotalMoney()}"></span>元</td>
+                <td th:if="${sign.equals('money')}">
+                    <form th:action="@{/totalMoney/{id}/{sign}(id = ${order.getId()}, sign = 'sign')}" method="GET" class="totalMoney-form">
+                        <input type="text" name="totalMoney" autofocus="autofocus" th:value="${order.getTotalMoney()}" class="totalMoney-input">
+                    </form>元
+                </td>
+                <!-- th:text 文本替换-->
+                <td th:text="${order.getDiscount()}"></td>
+                <td><span th:text="${order.getTrueMoney()}"></span>元</td>
+                <td th:text="${order.getUserId()}"></td>
+            </tr>
+        </table>
+        <table border="2" align="center" class="menu-table">
+            <!-- tr用于定义表格的列 -->
+            <tr>
+                <!-- th代表表格内数据居中加粗 -->
+                <th>菜名</th>
+                <th>价格</th>
+                <th>份数</th>
+            </tr>
+            <tr th:each="menu : ${order.getMenus()}">
+                <!-- td代表表格内内容靠左对齐 -->
+                <!-- th:text 文本替换-->
+                <!-- ${}用于获取变量值 -->
+                <td th:text="${menu.getName()}"></td>
+                <td><span th:text="${menu.getPrice()}"></span>元</td>
+                <td><span th:text="${menu.getAmount()}"></span>份</td>
+            </tr>
+
+            <tr>
+                <!-- td代表表格内内容靠左对齐 -->
+                <!-- @{}用于链接网页-->
+                <td class="td4" colspan="3">
+                    <a href="/order" class="change-menu btn">返回总订单</a>
+                    <a th:href="@{/order/menu/{id}(id = ${order.getId()})}" class="change-menu btn">修改菜单</a>
+                    <a th:href="@{/orderDetails/{id}/{sign}(id = ${order.getId()}, sign = 'status')}" class="change-statue btn">修改状态</a>
+                    <a th:href="@{/orderDetails/{id}/{sign}(id = ${order.getId()}, sign = 'money')}" class="change-money btn">修改金额</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

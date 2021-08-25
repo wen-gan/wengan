@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 针对网页的设置，不加的话有的网页显示不出来 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页名 -->
+    <title>点餐系统-付款</title>
+</head>
+<body>
+    <div class="menu-div">
+        <div class="title">
+            <!-- 标题(1-6) -->
+            <h1 align="center">您的订单如下，请确认后点击付款</h1>
+            <!-- 页面跳转 -->
+            <a href="/menu" class="btn1">返回菜单</a>
+        </div>
+        <div class="content">
+            <table border="2" align="center" class="menu-table">
+                <!-- tr用于定义表格的列 -->
+                <tr>
+                    <!-- th代表表格内数据居中加粗 -->
+                    <th>菜名</th>
+                    <th>价格</th>
+                    <th>份数</th>
+                </tr>
+                <tr th:each="menu : ${session.orderFoods}">
+                    <!-- td代表表格内内容靠左对齐 -->
+                    <td th:text="${menu.getName()}"></td>
+                    <td><span th:text="${menu.getPrice()}"></span>元</td>
+                    <td><span th:text="${menu.getAmount()}"></span>份</td>
+                </tr>
+                <tr>
+                    <!-- td代表表格内内容靠左对齐 -->
+                    <!-- th:if 进行判断-->
+                    <!-- th:unless if操作的对立面 -->
+                    <!-- ${}用于获取变量值 -->
+                    <!-- @{}用于链接网页-->
+                    <td colspan="3">
+                        <div class="total">
+                            <span class="span0">总金额：</span><span class="money1" th:text="${session.totalMoney}"></span><span class="span1">元</span>
+                        </div>
+                        <div class="discount" th:if="${session.user == null}">
+                            <span>折扣信息：</span><span class="money1">无折扣</span>
+                        </div>
+                        <div class="discount" th:unless="${session.user == null}">
+                            <span>折扣信息：</span><span class="money1" th:text="${session.user.getLevel()}"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- td代表表格内内容靠左对齐 -->
+                    <td class="td4" colspan="3">
+                        <form action="/pay" method="GET">
+                            <input type="submit" value="付款" class="btn">
+                        </form>
+                        <span class="span3">实付款：</span><span class="money" th:text="${session.trueMoney}"></span><span class="span2">元</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
