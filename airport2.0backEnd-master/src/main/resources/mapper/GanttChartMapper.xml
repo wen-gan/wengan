@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjtu.recovery.mapper.GanttChartMapper">
+
+    <resultMap id="GanttChartMap" type="com.bjtu.recovery.entity.GanttChart">
+        <id column="sample_id" jdbcType="VARCHAR" property="sample_id"/>
+        <result column="flight_no" jdbcType="VARCHAR" property="flight_no"/>
+        <result column="model" jdbcType="VARCHAR" property="model"/>
+        <result column="model_update_time" jdbcType="VARCHAR" property="model_update_time"/>
+        <result column="orig_aircraft" jdbcType="VARCHAR" property="orig_aircraft"/>
+        <result column="orig_dep_airport" jdbcType="VARCHAR" property="orig_dep_airport"/>
+        <result column="orig_arr_airport" jdbcType="VARCHAR" property="orig_arr_airport"/>
+        <result column="orig_dep_time" jdbcType="VARCHAR" property="orig_dep_time"/>
+        <result column="orig_arr_time" jdbcType="VARCHAR" property="orig_arr_time"/>
+        <result column="orig_crew" jdbcType="VARCHAR" property="orig_crew"/>
+        <result column="aircraft" jdbcType="VARCHAR" property="aircraft"/>
+        <result column="dep_airport" jdbcType="VARCHAR" property="dep_airport"/>
+        <result column="arr_airport" jdbcType="VARCHAR" property="arr_airport"/>
+        <result column="dep_time" jdbcType="VARCHAR" property="dep_time"/>
+        <result column="arr_time" jdbcType="VARCHAR" property="arr_time"/>
+        <result column="is_recovery" jdbcType="VARCHAR" property="is_recovery"/>
+        <result column="is_cancelled" jdbcType="VARCHAR" property="is_cancelled"/>
+        <result column="is_delayed" jdbcType="VARCHAR" property="is_delayed"/>
+        <result column="is_merge" jdbcType="VARCHAR" property="is_merge"/>
+        <result column="is_straighten" jdbcType="VARCHAR" property="is_straighten"/>
+        <result column="is_swap" jdbcType="VARCHAR" property="is_swap"/>
+        <result column="is_ferry" jdbcType="VARCHAR" property="is_ferry"/>
+        <result column="merge_list" jdbcType="VARCHAR" property="merge_list"/>
+        <result column="straighten_list" jdbcType="VARCHAR" property="straighten_list"/>
+        <result column="user_id" jdbcType="VARCHAR" property="user_id"/>
+        <result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+    </resultMap>
+
+    <sql id="result">
+        sampleId, flightNo, model, modelUpdateTime, origAircraft, origDepAirport,origArrAirport, origDepTime, origArrTime, origCrew, aircraft, depAirport, arrAirport, depTime,
+        arrTime, isRecovery, isCancelled, isDelayed, isMerge, isStraighten, isSwap, isFerry, mergeList, straightenList, userId, updateTime
+    </sql>
+
+    <insert id="insertDataList" parameterType="java.util.List">
+        insert into problem_flight(sampleId, flightNo, model, modelUpdateTime, origAircraft, origDepAirport,
+        origArrAirport, origDepTime, origArrTime, origCrew, aircraft, depAirport, arrAirport, depTime,
+        arrTime, isRecovery, isCancelled, isDelayed, isMerge, isStraighten, isSwap,
+        isFerry, mergeList, straightenList, userId, updateTime)
+        values
+        <foreach collection="list" item="addList" index="index" separator=",">
+            (#{addList.sampleId},
+            #{addList.flightNo},
+            #{addList.model},
+            #{addList.modelUpdateTime},
+            #{addList.origAircraft},
+            #{addList.origDepAirport},
+            #{addList.origArrAirport},
+            #{addList.origDepTime},
+            #{addList.origArrTime},
+            #{addList.origCrew},
+            #{addList.aircraft},
+            #{addList.depAirport},
+            #{addList.arrAirport},
+            #{addList.depTime},
+            #{addList.arrTime},
+            #{addList.isRecovery},
+            #{addList.isCancelled},
+            #{addList.isDelayed},
+            #{addList.isMerge},
+            #{addList.isStraighten},
+            #{addList.isSwap},
+            #{addList.isFerry},
+            #{addList.mergeList},
+            #{addList.straightenList},
+            #{addList.user_id},
+            #{addList.update_time}
+        </foreach>
+    </insert>
+
+    <update id="updateDataList" parameterType="java.util.List">
+        <foreach collection="list" item="updateList" index="index" separator=";">
+            update result
+            <set>
+                origAircraft = "${updateList.origAircraft}"
+            </set>
+            where sampleId = ${updateList.sampleId}
+        </foreach>
+
+    </update>
+
+</mapper>

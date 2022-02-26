@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjtu.recovery.mapper.ReduceFlightMapper">
+
+    <resultMap id="ReduceFlightMap" type="com.bjtu.recovery.entity.ReduceFlight">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="date" jdbcType="VARCHAR" property="date"/>
+        <result column="way_point" jdbcType="VARCHAR" property="way_point"/>
+        <result column="reduce_num" jdbcType="VARCHAR" property="reduce_num"/>
+        <result column="reduce_start_date" jdbcType="VARCHAR" property="reduce_start_date"/>
+        <result column="reduce_end_date" jdbcType="VARCHAR" property="reduce_end_date"/>
+        <result column="guaranteed_route_id" jdbcType="VARCHAR" property="guaranteed_route_id"/>
+        <result column="leg_id" jdbcType="VARCHAR" property="leg_id"/>
+        <result column="designated_aircraft" jdbcType="VARCHAR" property="designated_aircraft"/>
+        <result column="aircraft_id" jdbcType="VARCHAR" property="aircraft_id"/>
+        <result column="destination" jdbcType="VARCHAR" property="destination"/>
+        <result column="user_id" jdbcType="VARCHAR" property="user_id"/>
+        <result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+    </resultMap>
+
+    <sql id="reduce_flight">
+        id, date, way_point, reduce_num, reduce_start_date, reduce_end_date, guaranteed_route_id, leg_id, designated_aircraft, aircraft_id, destination, user_id, update_time
+    </sql>
+
+    <insert id="insertDataList" parameterType="java.util.List">
+        insert into reduce_flight(id, date, way_point, reduce_num, reduce_start_date, reduce_end_date, guaranteed_route_id, leg_id, designated_aircraft, aircraft_id, destination, user_id, update_time)
+        values
+        <foreach collection="list" item="addList" index="index" separator=",">
+            (#{addList.id},
+            #{addList.date},
+            #{addList.way_point},
+            #{addList.reduce_num},
+            #{addList.reduce_start_date},
+            #{addList.reduce_end_date},
+            #{addList.guaranteed_route_id},
+            #{addList.leg_id},
+            #{addList.designated_aircraft},
+            #{addList.aircraft_id},
+            #{addList.destination},
+            #{addList.user_id},
+            #{addList.update_time}
+        </foreach>
+    </insert>
+
+    <update id="updateDataList" parameterType="java.util.List">
+        <foreach collection="list" item="updateList" index="index" separator=";">
+            update reduce_flight
+            <set>
+                guaranteed_route_id = "${updateList.guaranteed_route_id}"
+            </set>
+            where id = ${updateList.id}
+        </foreach>
+
+    </update>
+
+</mapper>

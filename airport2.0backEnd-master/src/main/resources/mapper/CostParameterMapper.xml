@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjtu.recovery.mapper.CostParameterMapper">
+
+    <resultMap id="CostParameterMap" type="com.bjtu.recovery.entity.CostParameter">
+        <id column="cost_id" jdbcType="VARCHAR" property="cost_id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="parameter_value" jdbcType="VARCHAR" property="parameter_value"/>
+        <result column="instruction" jdbcType="VARCHAR" property="instruction"/>
+        <result column="user_id" jdbcType="VARCHAR" property="user_id"/>
+        <result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+    </resultMap>
+
+    <sql id="cost_parameter">
+        cost_id, name, parameter_value, instruction, user_id, update_time
+    </sql>
+
+    <insert id="insertDataList" parameterType="java.util.List">
+        insert into cost_parameter(cost_id, name, parameter_value, instruction, user_id, update_time)
+        values
+        <foreach collection="list" item="addList" index="index" separator=",">
+            (#{addList.name},
+            #{addList.parameter_value},
+            #{addList.instruction},
+            #{addList.user_id},
+            #{addList.update_time}
+        </foreach>
+    </insert>
+
+    <update id="updateDataList" parameterType="java.util.List">
+        <foreach collection="list" item="updateList" index="index" separator=";">
+            update cost_parameter
+            <set>
+                name = "${updateList.name}",
+            </set>
+            where cost_id = ${updateList.cost_id}
+        </foreach>
+    </update>
+
+
+</mapper>
